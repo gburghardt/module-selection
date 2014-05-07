@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Demo: Selection Module</title>
+	<style type="text/css">
+		li {
+			cursor: pointer;
+		}
+		.selected {
+			background-color: #ffc;
+		}
+	</style>
+</head>
+<body>
+	<h1>Selection Module</h1>
+
+	<h2>Simple Lists</h2>
+
+	<div id="fruits">
+		<ol class="selection-items">
+			<li data-actions="fruits.toggle">Apples</li>
+			<li data-actions="fruits.toggle">Oranges</li>
+			<li data-actions="fruits.toggle">Tomatoes</li>
+		</ol>
+	</div>
+
+	<div id="nuts">
+		<ol class="selection-items">
+			<li data-actions="nuts.toggle">Walnuts</li>
+			<li data-actions="nuts.toggle">Pecans</li>
+			<li data-actions="nuts.toggle">Cashews</li>
+			<li data-actions="nuts.toggle">Hazelnuts</li>
+			<li data-actions="nuts.toggle">Almonds</li>
+		</ol>
+	</div>
+
+	<h2>A List With All The Trimmings</h2>
+
+	<div id="tasks">
+		<p>
+			<button type="button" data-actions="tasks.removeAll">Remove All</button>
+			<button type="button" data-actions="tasks.removeSelected">Remove Selected</button>
+			<button type="button" data-actions="tasks.selectAll">Select All</button>
+			<button type="button" data-actions="tasks.deselectAll">Deselect All</button>
+		</p>
+		<ol class="selection-items">
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Take out the garbage</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Clean the bathroom</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Raze the garage</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Raise campaign funds</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Do the laundry</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Take a nap</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Eat lunch</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Go to work</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Challenge the Status Quo</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Quickly give up challenge to status quo in favor of path of least resistance</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Be lazy</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Write the Great American Novel</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Go skydiving</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Bungee jump (with bungee cord this time)</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Yell at neighbors' kids to stay off lawn</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Nap on front porch</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Throw clods of dirt at garage wall</li>
+			<li data-actions="tasks.toggle"><a href="#" data-actions="tasks.remove">X</a> Cure cancer</li>
+		</ol>
+	</div>
+
+	<script type="text/javascript" src="../bower_components/oxydizr/src/Oxydizr.js"></script>
+	<script type="text/javascript" src="../bower_components/oxydizr/src/Oxydizr/FrontController.js"></script>
+	<script type="text/javascript" src="../bower_components/module-base/src/module/base.js"></script>
+	<script type="text/javascript" src="../bower_components/module-utils/dist/module-utils-base.concat.js"></script>
+	<script type="text/javascript" src="../bower_components/module-utils/dist/module-utils-element_store.concat.js"></script>
+	<script type="text/javascript" src="../bower_components/module-utils/dist/module-utils-events.concat.js"></script>
+	<script type="text/javascript" src="../bower_components/mocking_bird/src/mocking_bird.js"></script>
+	<script type="text/javascript" src="../bower_components/mocking_bird/src/mocking_bird/xml_http_request.js"></script>
+	<script type="text/javascript" src="../src/module/selection_module.js"></script>
+	<script type="text/javascript">
+
+		// Set up front controller to handle DOM events
+		var frontController = new Oxydizr.FrontController()
+			.init(document.documentElement);
+
+		var selectionModules = {};
+
+		(function() {
+			var i = 0, length = arguments.length, id, module;
+
+			for (i; i < length; i++) {
+				id = arguments[i];
+				module = new Module.SelectionModule().init(id);
+				module.controllerId = id;
+				module.listen("selectionSizeChanged", function(publisher, data) {
+					console.info(publisher.controllerId + ": " + publisher.getSelectionSize() + " selected");
+				});
+				module.listen("itemRemoved", function(publisher, data) {
+					console.info(publisher.controllerId + ": Item removed", data.item);
+				});
+
+				frontController.registerController(module);
+				selectionModules[id] = module;
+			}
+		})("fruits", "nuts", "tasks");
+
+	</script>
+</body>
+</html>

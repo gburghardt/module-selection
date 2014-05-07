@@ -1,0 +1,18 @@
+{
+	"name": "module-selection",
+	"description": "",
+	"homepage": "https://github.com/gburghardt/module-selection",
+    "version": "1.0.0",
+	"repository": { "type": "git", "url": "https://github.com/gburghardt/module-selection.git" },
+	"authors": [
+		"Greg Burghardt <greg_burghardt@yahoo.com>"
+	],
+	"license": "MIT",
+	"main": "src/module/selection_module.js",
+	"dependencies": {
+		"module-utils": "~1.0.3"
+	},
+	"devDependencies": {
+		"oxydizr": "~1.0.1"
+	}
+}
