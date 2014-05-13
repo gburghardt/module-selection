@@ -1,6 +1,6 @@
 {
 	"name": "module-selection",
-	"description": "",
+	"description": "Easy select/deselect items module",
 	"homepage": "https://github.com/gburghardt/module-selection",
     "version": "1.0.0",
 	"repository": { "type": "git", "url": "https://github.com/gburghardt/module-selection.git" },
